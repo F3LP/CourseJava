@@ -32,7 +32,7 @@ public class DepartmentDao implements DepartmentDaoInterface {
 
 		} catch (SQLException e) {
 			throw new DBException(e.getMessage());
-			
+
 		} finally {
 			DB.closeStatement(ps);
 		}
@@ -49,7 +49,7 @@ public class DepartmentDao implements DepartmentDaoInterface {
 
 		} catch (SQLException e) {
 			throw new DBException(e.getMessage());
-			
+
 		} finally {
 			DB.closeStatement(ps);
 		}
@@ -67,7 +67,7 @@ public class DepartmentDao implements DepartmentDaoInterface {
 
 		} catch (SQLException e) {
 			throw new DBException(e.getMessage());
-			
+
 		} finally {
 			DB.closeStatement(ps);
 		}
@@ -75,29 +75,26 @@ public class DepartmentDao implements DepartmentDaoInterface {
 
 	@Override
 	public List<Department> findAll() {
-		
+
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		
-		try  {
+
+		try {
 			ps = conn.prepareStatement("SELECT * FROM department ORDER BY Name");
 			rs = ps.executeQuery();
-			
+
 			List<Department> list = new ArrayList<>();
-			
+
 			while (rs.next()) {
-				Department dpt = new Department();
-				dpt.setId(rs.getInt("Id"));
-				dpt.setName(rs.getString("Name"));
-				
+				Department dpt = instantiateDepartment(rs);
 				list.add(dpt);
-			}			
-			
-		return list;
-		
+			}
+
+			return list;
+
 		} catch (SQLException e) {
 			throw new DBException(e.getMessage());
-			
+
 		} finally {
 			DB.closeStatement(ps);
 			DB.closeResultSet(rs);
@@ -110,28 +107,31 @@ public class DepartmentDao implements DepartmentDaoInterface {
 		ResultSet rs = null;
 
 		try {
-
 			ps = conn.prepareStatement("SELECT * FROM department WHERE Id = ?");
 			ps.setInt(1, id);
 
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-
-				Department dpt = new Department();
-				dpt.setId(rs.getInt("Id"));
-				dpt.setName(rs.getString("Name"));
-
+				Department dpt = instantiateDepartment(rs);
 				return dpt;
 			}
 
 		} catch (SQLException e) {
 			throw new DBException(e.getMessage());
-			
+
 		} finally {
 			DB.closeStatement(ps);
 			DB.closeResultSet(rs);
 		}
 		return null;
+	}
+	
+	private Department instantiateDepartment(ResultSet rs) throws SQLException {
+		Department dpt = new Department();
+		dpt.setId(rs.getInt("Id"));
+		dpt.setName(rs.getString("Name"));
+		
+		return dpt;
 	}
 }
