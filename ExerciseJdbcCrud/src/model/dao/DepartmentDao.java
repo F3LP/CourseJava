@@ -28,7 +28,18 @@ public class DepartmentDao implements DepartmentDaoInterface {
 			ps = conn.prepareStatement("INSERT INTO department (Name)" + "VALUES (?)");
 			ps.setString(1, dpt.getName());
 
-			ps.executeUpdate();
+			int rowsAffected = ps.executeUpdate();
+			
+			if (rowsAffected > 0) {
+				ResultSet rs = ps.getGeneratedKeys();
+				if (rs.next()) {
+					int id = rs.getInt(1);
+					dpt.setId(id);
+				}
+			}
+			else {
+				throw new DBException("No rows affected");
+			}
 
 		} catch (SQLException e) {
 			throw new DBException(e.getMessage());

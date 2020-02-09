@@ -28,11 +28,15 @@ public class Program {
 //		list = dptDao.findAll();	
 //		list.forEach(System.out::println);
 		
-		Seller seller = new Seller(null, "Padeiro João", "pjoao@gmail.com", new Date(), 4500.0, dpt);
+		Seller seller = new Seller(17, "Padeiro Joao", "padjo@gmail.com", new Date(), 4500.0, dpt);
 		
 		SellerDao sellerDao = new SellerDao(conn);
 		
-		sellerDao.insert(seller);
+		//sellerDao.insert(seller);
+		//sellerDao.deleteById(18);
+		//sellerDao.update(seller, 20);
+		//System.out.println(sellerDao.findById(21));
+		System.out.println(sellerDao.findAll());
 		
 		DB.closeConnection(conn);
 	}
