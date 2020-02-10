@@ -15,7 +15,7 @@ public class Program {
 		
 		Connection conn =  DB.getConnection();
 		
-		Department dpt = new Department(17, "novo");
+		Department dpt = new Department(17, "test");
 //		
 //		DepartmentDao dptDao = new DepartmentDao(conn);
 			
